@@ -1,29 +1,17 @@
-import { Book } from "@/types";
+import { Suspense } from "react";
 import BookList from "./components/BookList";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
-export default async function Home() {
-  // data fetching
-  let books: Book[] = [];
-
-  try {
-    const response = await fetch(`${process.env.BACKEND_URL}/books/list-books`);
-
-    if (!response.ok) {
-      throw new Error("An error occured while fetching the data.");
-    }
-
-    const data = await response.json();
-    books = data.data;
-  } catch (error) {
-    console.log("Error in retrieving book list: ", error);
-  }
-
+export default function Home() {
   return (
     <div className="mt-12">
       <h2 className="text-center text-orange-500 font-bold text-2xl font-mono">
         Welcome to eBook store
       </h2>
-      <BookList books={books} />
+
+      <Suspense fallback={<LoadingSkeleton count={3} />}>
+        <BookList />
+      </Suspense>
     </div>
   );
 }
