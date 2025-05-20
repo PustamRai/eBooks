@@ -14,8 +14,6 @@ export default async function Home() {
 
     const data = await response.json();
     books = data.data;
-
-    console.log("books: ", books);
   } catch (error) {
     console.log("Error in retrieving book list: ", error);
   }
