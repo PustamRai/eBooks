@@ -19,7 +19,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="mt-8">
+    <div className="mt-12">
       <h2 className="text-center text-orange-500 font-bold text-2xl font-mono">
         Welcome to eBook store
       </h2>
