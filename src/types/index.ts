@@ -5,6 +5,7 @@ export interface Book {
   coverImage: string;
   file: string;
   author: Author;
+  slug: string;
 }
 
 interface Author {

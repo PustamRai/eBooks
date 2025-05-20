@@ -3,11 +3,11 @@ import Image from "next/image";
 import React from "react";
 import DownloadButton from "./components/DownloadButton";
 
-async function SingleBookPage({ params }: { params: { bookId: string } }) {
+async function SingleBookPage({ params }: { params: { slug: string } }) {
   let book: Book | null = null;
   try {
     const response = await fetch(
-      `${process.env.BACKEND_URL}/books/single-book/${params.bookId}`
+      `${process.env.BACKEND_URL}/books/single-book/${params.slug}`
     );
 
     if (!response.ok) {
@@ -16,6 +16,8 @@ async function SingleBookPage({ params }: { params: { bookId: string } }) {
 
     const data = await response.json();
     book = data.data;
+
+    console.log("single book: ", book);
   } catch (error) {
     console.log("Error retrieving single book: ", error);
   }
