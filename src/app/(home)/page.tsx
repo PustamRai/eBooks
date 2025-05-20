@@ -1,17 +1,24 @@
+import { Book } from "@/types";
 import BookList from "./components/BookList";
 
 export default async function Home() {
   // data fetching
-  const response = await fetch(`${process.env.BACKEND_URL}/books/list-books`);
+  let books: Book[] = [];
 
-  if (!response.ok) {
-    throw new Error("An error occured while fetching the data.");
+  try {
+    const response = await fetch(`${process.env.BACKEND_URL}/books/list-books`);
+
+    if (!response.ok) {
+      throw new Error("An error occured while fetching the data.");
+    }
+
+    const data = await response.json();
+    books = data.data;
+
+    console.log("books: ", books);
+  } catch (error) {
+    console.log("Error in retrieving book list: ", error);
   }
-
-  const data = await response.json();
-  const books = data.data;
-
-  console.log("books: ", books);
 
   return (
     <div className="mt-8">
