@@ -1,11 +1,12 @@
 import { Book } from "@/types";
 import React from "react";
+import BookCard from "./BookCard";
 
 function BookList({ books }: { books: Book[] }) {
   return (
-    <div>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10">
       {books.map((book) => (
-        <h2 key={book._id}>{book.title}</h2>
+        <BookCard key={book._id} books={book} />
       ))}
     </div>
   );
