@@ -1,4 +1,4 @@
-import BookCard from "./components/BookCard";
+import BookList from "./components/BookList";
 
 export default async function Home() {
   // data fetching
@@ -8,13 +8,15 @@ export default async function Home() {
     throw new Error("An error occured while fetching the data.");
   }
 
-  const books = await response.json();
+  const data = await response.json();
+  const books = data.data;
+
   console.log("books: ", books);
 
   return (
     <div>
       <h2>Welcome to eBook store</h2>
-      <BookCard books={books} />
+      <BookList books={books} />
     </div>
   );
 }
