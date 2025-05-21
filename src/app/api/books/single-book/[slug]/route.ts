@@ -2,17 +2,23 @@ import connectDB from "@/config/db";
 import { Book } from "@/models/book.models";
 import { NextResponse } from "next/server";
 
+// Connect to DB
 connectDB();
 
-export async function GET() {
+export async function GET(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
   try {
-    const books = await Book.find({}); // .populate("author", "name")
+    const { slug } = params;
 
-    if (books.length === 0) {
+    const book = await Book.findOne({ slug }); // .populate("author", "name")
+
+    if (!book) {
       return NextResponse.json(
         {
           success: false,
-          message: "No books found",
+          message: "Book not found",
         },
         { status: 404 }
       );
@@ -21,29 +27,20 @@ export async function GET() {
     return NextResponse.json(
       {
         success: true,
-        message: "List of books retrieved successfully",
-        data: books,
+        message: "Book retrieved successfully",
+        data: book,
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error in listing books", error);
+    console.error("Error fetching book:", error);
     return NextResponse.json(
       {
         success: false,
-        message: "Failed to list books",
+        message: "Internal Server Error",
         error: (error as Error).message,
       },
       { status: 500 }
     );
   }
 }
-
-// export async function GET() {
-//   return NextResponse.json(
-//     {
-//       message: "ebook get endpoint",
-//     },
-//     { status: 200 }
-//   );
-// }
