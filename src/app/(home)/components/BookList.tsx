@@ -7,7 +7,12 @@ async function BookList() {
   let books: Book[] = [];
 
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/books/list-books`);
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/books/list-books`,
+      {
+        cache: "no-store", // force no caching
+      }
+    );
 
     if (!response.ok) {
       throw new Error("An error occured while fetching the data.");

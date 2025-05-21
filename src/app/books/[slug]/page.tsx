@@ -17,6 +17,8 @@ async function SingleBookPage({ params }: { params: { slug: string } }) {
     const data = await response.json();
     book = data.data;
 
+    console.log("books: ", book);
+
     console.log("single book: ", book);
   } catch (error) {
     console.log("Error retrieving single book: ", error);
