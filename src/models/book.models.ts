@@ -11,11 +11,11 @@ const bookSchema = new mongoose.Schema<IBook>(
       type: String,
       required: true,
     },
-    // author: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     coverImage: {
       type: String,
       required: true,

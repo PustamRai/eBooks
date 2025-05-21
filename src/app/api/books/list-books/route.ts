@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/config/db";
 import { Book } from "@/models/book.models";
+import "@/models/user.models";
 
 connectDB();
 
 export async function GET() {
   try {
-    const books = await Book.find({}); // .populate("author", "name");
+    const books = await Book.find({}).populate("author", "name");
 
     if (books.length === 0) {
       return NextResponse.json(
