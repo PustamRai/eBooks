@@ -1,15 +1,36 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log("form: ", e.target);
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signup`,
+        { name, email, password }
+      );
+
+      if (response.data.success) {
+        toast.success(response.data.message || "Signup successful!");
+        router.push("/login");
+      } else {
+        toast.error(response.data.message || "Signup failed");
+      }
+    } catch (error: any) {
+      console.log("Error in signup: ", error.message);
+      toast.error(error.response?.data?.message || "failed in signup");
+    }
   };
 
   return (
