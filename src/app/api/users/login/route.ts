@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/config/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 connectDB();
 
@@ -25,9 +26,9 @@ export async function POST(request: NextRequest) {
     }
 
     // check password
-    const validPassword = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
-    if (!validPassword) {
+    if (!isMatch) {
       return NextResponse.json(
         {
           success: false,
@@ -38,25 +39,28 @@ export async function POST(request: NextRequest) {
     }
 
     // generate token
-    const token = await jwt.sign(
+    const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET_KEY as string,
       { expiresIn: "1d" }
     );
 
-    const response = NextResponse.json(
-      {
-        success: true,
-        message: "Login successful",
-      },
-      { status: 200 }
-    );
-
-    response.cookies.set("token", token, {
+    const options = {
       httpOnly: true,
-    });
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 24 * 60 * 60, // 1 day
+    };
 
-    return response;
+    cookies().set("token", token, options);
+
+    const loggedInUser = await User.findById(user._id).select("-password");
+
+    return NextResponse.json({
+      success: true,
+      message: "Login successful",
+      data: { token, loggedInUser },
+    });
   } catch (error) {
     console.log("Error login user: ", error);
     return NextResponse.json(
