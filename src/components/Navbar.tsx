@@ -3,8 +3,8 @@ import Link from "next/link";
 import React from "react";
 import Logout from "./LogoutButton";
 
-function Navbar() {
-  const cookieStore = cookies();
+async function Navbar() {
+  const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
   const isLoggedIn = !!token; // set isloggedIn true, if token exists, otherwise false
