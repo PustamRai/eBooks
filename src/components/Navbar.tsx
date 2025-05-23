@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import Logout from "./LogoutButton";
+import AddBookButton from "./AddBookButton";
 
 async function Navbar() {
   const cookieStore = await cookies();
@@ -22,7 +23,10 @@ async function Navbar() {
 
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
-            <Logout />
+            <div className="flex gap-4">
+              <AddBookButton />
+              <Logout />
+            </div>
           ) : (
             <div>
               <Link href={"/login"}>
