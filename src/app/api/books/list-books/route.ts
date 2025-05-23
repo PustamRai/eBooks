@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/config/db";
+import connectDB from "@/lib/db";
 import { Book } from "@/models/book.models";
 import "@/models/user.models";
 
