@@ -14,9 +14,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  // if (!isPublicPath && !token) {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // }
 }
 
 // see "matching paths"
