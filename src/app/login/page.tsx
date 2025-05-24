@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -15,8 +16,11 @@ function LoginPage() {
     e.preventDefault();
 
     try {
+      const host = (await headers()).get("host");
+      const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/login`,
+        `${protocol}://${host}/api/users/login`,
         {
           email,
           password,
