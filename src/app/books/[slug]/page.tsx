@@ -3,11 +3,21 @@ import Image from "next/image";
 import React from "react";
 import DownloadButton from "./components/DownloadButton";
 
-async function SingleBookPage({ params }: { params: { slug: string } }) {
+// interface PageProps {
+//   params: Promise<{ slug: string }>;
+// }
+
+async function SingleBookPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   let book: Book | null = null;
+
   try {
     const response = await fetch(
-      `${process.env.BACKEND_URL}/books/single-book/${params.slug}`
+      `${process.env.BACKEND_URL}/books/single-book/${slug}`
     );
 
     if (!response.ok) {

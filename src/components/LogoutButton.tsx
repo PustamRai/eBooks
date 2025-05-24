@@ -16,7 +16,8 @@ function Logout() {
       router.push("/");
     } catch (error) {
       console.log("Error in logout: ", error);
-      toast.error(error.response?.data?.message || "Logout failed");
+      toast.error("Logout failed");
+      // toast.error(error.response?.data?.message || "Logout failed");
     }
   };
   return (

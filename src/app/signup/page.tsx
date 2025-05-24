@@ -27,9 +27,10 @@ function SignupPage() {
       } else {
         toast.error(response.data.message || "Signup failed");
       }
-    } catch (error: any) {
-      console.log("Error in signup: ", error.message);
-      toast.error(error.response?.data?.message || "failed in signup");
+    } catch (error) {
+      console.log("Error in signup: ", error);
+      toast.error("failed in signup");
+      // toast.error(error.response?.data?.message || "failed in signup");
     }
   };
 

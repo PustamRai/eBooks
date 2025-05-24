@@ -32,9 +32,10 @@ function LoginPage() {
       } else {
         toast.error(response.data.message || "Login failed");
       }
-    } catch (error: any) {
-      console.log("Error login user: ", error.message);
-      toast.error(error.response?.data?.message || "Login failed");
+    } catch (error) {
+      console.log("Error login user: ", error);
+      toast.error("Login failed");
+      // toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
