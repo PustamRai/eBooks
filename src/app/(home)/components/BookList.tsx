@@ -1,18 +1,19 @@
 import { Book } from "@/types";
 import React from "react";
 import BookCard from "./BookCard";
+import { headers } from "next/headers";
 
 async function BookList() {
   // data fetching
   let books: Book[] = [];
 
   try {
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/books/list-books`,
-      {
-        cache: "no-store", // force no caching
-      }
-    );
+    const host = (await headers()).get("host");
+
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const response = await fetch(`${protocol}://${host}/api/books/list-books`, {
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       throw new Error("An error occured while fetching the data.");
