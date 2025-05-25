@@ -1,17 +1,15 @@
 import { Book } from "@/types";
 import React from "react";
 import BookCard from "./BookCard";
-import { headers } from "next/headers";
 
 async function BookList() {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   // data fetching
   let books: Book[] = [];
 
   try {
-    const host = (await headers()).get("host");
-
-    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-    const response = await fetch(`${protocol}://${host}/api/books/list-books`, {
+    const response = await fetch(`${BASE_URL}/api/books/list-books`, {
       cache: "no-store",
     });
 

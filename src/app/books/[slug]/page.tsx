@@ -3,22 +3,18 @@ import Image from "next/image";
 import React from "react";
 import DownloadButton from "./components/DownloadButton";
 
-// interface PageProps {
-//   params: Promise<{ slug: string }>;
-// }
-
 async function SingleBookPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  let book: Book | null = null;
 
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  let book: Book | null = null;
   try {
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/books/single-book/${slug}`
-    );
+    const response = await fetch(`${BASE_URL}/api/books/single-book/${slug}`);
 
     if (!response.ok) {
       throw new Error("An error occured while retrieving single book data");
