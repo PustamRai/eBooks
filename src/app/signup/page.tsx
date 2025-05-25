@@ -16,10 +16,11 @@ function SignupPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signup`,
-        { name, email, password }
-      );
+      const response = await axios.post(`/api/users/signup`, {
+        name,
+        email,
+        password,
+      });
 
       if (response.data.success) {
         toast.success(response.data.message || "Signup successful!");

@@ -9,9 +9,7 @@ async function BookList() {
   let books: Book[] = [];
 
   try {
-    const response = await fetch(`${BASE_URL}/api/books/list-books`, {
-      cache: "no-store",
-    });
+    const response = await fetch(`${BASE_URL}/api/books/list-books`);
 
     if (!response.ok) {
       throw new Error("An error occured while fetching the data.");
