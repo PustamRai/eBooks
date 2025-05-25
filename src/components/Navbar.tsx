@@ -23,12 +23,12 @@ async function Navbar() {
 
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
-            <div className="flex gap-4">
+            <div className="flex gap-4 ">
               <AddBookButton />
               <Logout />
             </div>
           ) : (
-            <div>
+            <div className="flex gap-5">
               <Link href={"/login"}>
                 <button className="h-10 rounded-md border border-orange-500 px-4 py-2 text-sm font-medium text-orange-900 transition-all hover:border-orange-500 hover:bg-orange-500 active:border-black active:bg-blue-500 cursor-pointer">
                   Sign in

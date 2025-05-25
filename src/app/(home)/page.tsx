@@ -4,7 +4,7 @@ import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 export default function Home() {
   return (
-    <div className="mt-12 min-h-screen ">
+    <div className="mt-12 min-h-screen mb-6">
       <h2 className="text-center text-orange-500 font-bold text-2xl font-mono">
         Welcome to eBook store
       </h2>

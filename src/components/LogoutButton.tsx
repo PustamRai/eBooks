@@ -9,7 +9,7 @@ function Logout() {
 
   const logout = async () => {
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/logout`);
+      await axios.post("/api/users/logout");
 
       toast.success("Logout successful");
       router.refresh();
@@ -24,7 +24,7 @@ function Logout() {
     <div>
       <button
         type="submit"
-        className="h-10 rounded-md border border-red-500 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-500 hover:text-white transition"
+        className="h-10 rounded-md border border-red-500 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-500 hover:text-white transition cursor-pointer"
         onClick={logout}
       >
         Logout

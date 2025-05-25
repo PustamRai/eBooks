@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -13,6 +14,8 @@ function AddBookPage() {
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [bookFile, setBookFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -36,12 +39,10 @@ function AddBookPage() {
 
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/books/add-book`,
-        formData
-      );
+      const response = await axios.post("api/books/add-book", formData);
 
       if (response?.data?.success) {
+        router.push("/");
         toast.success(response?.data?.message || "book upload successfully");
       }
     } catch (error) {
