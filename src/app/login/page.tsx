@@ -1,95 +1,44 @@
-"use client";
-import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
+import { Metadata } from "next";
+import LoginForm from "@/components/login/LoginForm";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+// metadata
+export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
+  title: "Login to Your Account",
+  description:
+    "Sign in to access your personal ebook library and continue reading.",
+  robots: {
+    index: false, // Don't index auth pages
+    follow: true,
+  },
+  openGraph: {
+    title: "Login to eBook",
+    description: "Access your personal digital library",
+    type: "website",
+    images: [
+      {
+        url: "/og-login.png",
+        width: 1200,
+        height: 630,
+        alt: "Login to eBook",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://e-books-two.vercel.app/login",
+  },
+};
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const router = useRouter();
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        `/api/users/login`,
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.data.success) {
-        toast.success(response.data.message || "Login successful!");
-        router.push("/");
-      } else {
-        toast.error(response.data.message || "Login failed");
-      }
-    } catch (error) {
-      console.log("Error login user: ", error);
-      toast.error("Login failed");
-      // toast.error(error.response?.data?.message || "Login failed");
-    }
-  };
-
   return (
     <div className="flex justify-center items-center min-h-screen  p-4 mx-auto">
       <div className="max-w-md w-full px-6 py-8 rounded-lg ">
         <h2 className="text-2xl font-normal text-center text-gray-800 mb-6 font-serif">
           Login<span className="mx-2">—</span>
         </h2>
-
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full px-3 py-2 border border-gray-500 rounded-xs focus:outline-none focus:ring-1 focus:ring-black"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full px-3 py-2 border border-gray-500 rounded-xs focus:outline-none focus:ring-1 focus:ring-black"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center text-sm mt-2 mb-6">
-            <div className="text-gray-600 hover:underline">
-              Forgot your password?
-            </div>
-
-            <Link href={"/signup"}>
-              <div className="text-gray-600 hover:underline flex items-center">
-                Create account
-              </div>
-            </Link>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full md:w-auto md:px-12 py-2 bg-black text-white text-sm font-medium rounded-xs hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 mx-auto block cursor-pointer"
-          >
-            Sign in
-          </button>
-        </form>
+        <LoginForm />
       </div>
     </div>
   );
