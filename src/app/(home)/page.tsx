@@ -1,10 +1,13 @@
 import { Suspense } from "react";
 import BookList from "./components/BookList";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
-
 import { Metadata } from "next";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+// metadata
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: "eBook - Your Digital Library",
   description:
     "Discover thousands of ebooks across all genres. Read, share, and explore literature in our comprehensive digital library platform.",
