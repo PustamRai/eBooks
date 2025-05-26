@@ -2,6 +2,62 @@ import { Book } from "@/types";
 import Image from "next/image";
 import React from "react";
 import DownloadButton from "./components/DownloadButton";
+import { Metadata } from "next";
+
+// Generate dynamic metadata based on the book data
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  try {
+    const response = await fetch(`${BASE_URL}/api/books/single-book/${slug}`);
+    if (!response.ok) {
+      throw new Error("An error occurred while retrieving single book data");
+    }
+    const data = await response.json();
+    const book: Book = data.data;
+
+    return {
+      title: `${book.title} by ${book.author.name}`,
+      description: book.description,
+      keywords: [book.title, book.author.name, "book", "download", "read"],
+      authors: [{ name: book.author.name }],
+      openGraph: {
+        title: book.title,
+        description: book.description,
+        images: [
+          {
+            url: book.coverImage,
+            width: 800,
+            height: 600,
+            alt: book.title,
+          },
+        ],
+        type: "article",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: book.title,
+        description: book.description,
+        images: [book.coverImage],
+      },
+      robots: {
+        index: true,
+        follow: true,
+      },
+    };
+  } catch (error) {
+    console.log("Error generating metadata: ", error);
+    return {
+      title: "Book Not Found",
+      description: "The requested book could not be found.",
+    };
+  }
+}
 
 async function SingleBookPage({
   params,
