@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Logout from "./LogoutButton";
 import AddBookButton from "./AddBookButton";
+import Image from "next/image";
 
 async function Navbar() {
   const cookieStore = await cookies();
@@ -15,8 +16,9 @@ async function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4">
         <div>
           <Link href={"/"}>
-            <div className="">
-              <h2>eBook</h2>
+            <div className="flex">
+              <Image src="/favicon.ico" alt="favicon " width={30} height={30} />
+              <h2 className="text-orange-500 font-bold">eBook</h2>
             </div>
           </Link>
         </div>
