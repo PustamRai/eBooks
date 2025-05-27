@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 
 connectDB();
 
@@ -45,22 +44,27 @@ export async function POST(request: NextRequest) {
       { expiresIn: "1d" }
     );
 
+    const loggedInUser = await User.findById(user._id).select("-password");
+
     // cookie
-    const cookieStore = await cookies();
-    cookieStore.set("token", token, {
+    const response = NextResponse.json(
+      {
+        success: true,
+        message: "Login successful",
+        data: { token, loggedInUser },
+      },
+      { status: 200 }
+    );
+
+    response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 24 * 60 * 60, // 1 day
+      path: "/",
     });
 
-    const loggedInUser = await User.findById(user._id).select("-password");
-
-    return NextResponse.json({
-      success: true,
-      message: "Login successful",
-      data: { token, loggedInUser },
-    });
+    return response;
   } catch (error) {
     console.log("Error login user: ", error);
     return NextResponse.json(
