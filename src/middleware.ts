@@ -1,25 +1,37 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
+  // Allow access to public API
+  const publicApiPaths = [
+    "/api/books/list-books",
+    "/api/users/login",
+    "/api/users/signup",
+  ];
+  if (publicApiPaths.includes(path)) {
+    return NextResponse.next();
+  }
+
   const isPublicPath = path === "/login" || path === "/signup";
 
-  // cookie
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value || "";
+  const token = request.cookies.get("token")?.value || "";
 
+  // If logged in and accessing login or signup, redirect to home
   if (isPublicPath && token) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // if (!isPublicPath && !token) {
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
+  // If not logged in and accessing protected path, redirect to login
+  if (!isPublicPath && !token) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // Allow the request
+  return NextResponse.next();
 }
 
-// see "matching paths"
+// Apply middleware to these paths
 export const config = {
-  matcher: ["/", "/signup", "/login"],
+  matcher: ["/login", "/signup", "/add-book", "/api/:path*"],
 };
