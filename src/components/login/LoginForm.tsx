@@ -34,8 +34,7 @@ function LoginForm() {
       }
     } catch (error) {
       console.log("Error login user: ", error);
-      toast.error("Login failed");
-      // toast.error(error.response?.data?.message || "Login failed");
+      toast.error(error instanceof Error ? error.message : "Login failed");
     }
   };
 

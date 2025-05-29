@@ -30,8 +30,7 @@ function SignupForm() {
       }
     } catch (error) {
       console.log("Error in signup: ", error);
-      toast.error("failed in signup");
-      // toast.error(error.response?.data?.message || "failed in signup");
+      toast.error(error instanceof Error ? error.message : "signup failed");
     }
   };
 

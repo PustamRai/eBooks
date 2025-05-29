@@ -47,8 +47,9 @@ function AddBookPage() {
       }
     } catch (error) {
       console.log("Error uploading book: ", error);
-      toast.error("book upload failed");
-      // toast.error(error.response?.data?.message || "book upload failed");
+      toast.error(
+        error instanceof Error ? error.message : "book upload failed"
+      );
     } finally {
       setLoading(false);
     }
