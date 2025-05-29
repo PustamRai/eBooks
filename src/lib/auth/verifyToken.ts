@@ -13,8 +13,6 @@ export function verifyToken(token: string): AuthTokenPayload {
       process.env.JWT_SECRET_KEY
     ) as AuthTokenPayload;
 
-    console.log("decoded token: ", decoded);
-
     return decoded;
   } catch (error) {
     console.log("Error in token validation: ", error);

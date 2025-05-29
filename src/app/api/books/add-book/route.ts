@@ -12,8 +12,6 @@ connectDB();
 export async function POST(request: NextRequest) {
   const token = request.cookies.get("token")?.value || "";
 
-  console.log("book token: ", token);
-
   if (!token) {
     return NextResponse.json(
       {
@@ -28,8 +26,6 @@ export async function POST(request: NextRequest) {
   try {
     const decoded = verifyToken(token);
     userId = decoded.id;
-
-    console.log("tooken in add book: ", decoded);
   } catch (error) {
     console.log("Error in token validation: ", error);
     return NextResponse.json(
