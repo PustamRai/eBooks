@@ -18,7 +18,7 @@ function BookCard({ books }: { books: Book }) {
         <h2 className="line-clamp-2 text-xl font-bold text-orange-600 text-balance">
           {books.title}
         </h2>
-        <p className="font-bold text-gray-900 mt-1">{books.author.name}</p>
+        <p className="font-bold text-gray-900 mt-1">{books?.author?.name}</p>
         <Link
           href={`/books/${books.slug}`}
           className="py-1 px-2 rounded border border-orange-500 mt-4 inline-block text-orange-500 font-medium text-sm hover:border-orange-200 hover:bg-orange-100 transition"

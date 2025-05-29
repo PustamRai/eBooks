@@ -5,14 +5,44 @@ import slugify from "slugify";
 import connectDB from "@/lib/db";
 import cloudinary from "@/lib/cloudinary";
 import { Book } from "@/models/book.models";
+import { verifyToken } from "@/lib/auth/verifyToken";
 
 connectDB();
 
 export async function POST(request: NextRequest) {
+  const token = request.cookies.get("token")?.value || "";
+
+  console.log("book token: ", token);
+
+  if (!token) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Unauthorized: No token ",
+      },
+      { status: 401 }
+    );
+  }
+
+  let userId: string;
+  try {
+    const decoded = verifyToken(token);
+    userId = decoded.id;
+
+    console.log("tooken in add book: ", decoded);
+  } catch (error) {
+    console.log("Error in token validation: ", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: (error as Error).message,
+      },
+      { status: 401 }
+    );
+  }
+
   try {
     const formData = await request.formData();
-
-    console.log("form data: ", formData);
 
     const title = formData.get("title")?.toString();
     const genre = formData.get("genre")?.toString();
@@ -71,7 +101,7 @@ export async function POST(request: NextRequest) {
       slug,
       coverImage: coverUpload.secure_url,
       file: bookUpload.secure_url,
-      author: "683070c377b29e0d6d6ec2a5", // Replace with dynamic ID if needed
+      author: userId,
     });
 
     return NextResponse.json({
