@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import BookList from "./components/BookList";
+import BookList from "@/components/home/BookList";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import { Metadata } from "next";
 
