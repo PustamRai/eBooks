@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
-import Logout from "./LogoutButton";
-import AddBookButton from "./AddBookButton";
+import Logout from "../LogoutButton";
+import AddBookButton from "../AddBookButton";
 import Image from "next/image";
 
 async function Navbar() {
