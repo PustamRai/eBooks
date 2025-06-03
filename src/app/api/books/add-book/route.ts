@@ -108,7 +108,11 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Book upload error:", error);
     return NextResponse.json(
-      { success: false, error: (error as Error).message },
+      {
+        success: false,
+        message: "Book upload failed",
+        error: (error as Error).message,
+      },
       { status: 500 }
     );
   }
