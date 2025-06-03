@@ -4,11 +4,13 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { setUser } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,8 +29,11 @@ function LoginForm() {
       );
 
       if (response.data.success) {
+        const meResponse = await axios.get("api/users/me");
+        setUser(meResponse?.data?.data); // this sets the user right after login
         toast.success(response.data.message || "Login successful!");
         router.push("/");
+        router.refresh();
       } else {
         toast.error(response.data.message || "Login failed");
       }
