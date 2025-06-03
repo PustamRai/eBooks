@@ -1,15 +1,17 @@
-import { cookies } from "next/headers";
+"use client";
 import Link from "next/link";
 import React from "react";
 import Logout from "../LogoutButton";
 import AddBookButton from "../AddBookButton";
 import Image from "next/image";
+import { useAuth } from "@/app/context/AuthContext";
 
-async function Navbar() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+function Navbar() {
+  // const token = request.cookies.get("token")?.value;
 
-  const isLoggedIn = !!token; // set isloggedIn true, if token exists, otherwise false
+  // const isLoggedIn = !!token; // set isloggedIn true, if token exists, otherwise false
+
+  const { user } = useAuth();
 
   return (
     <nav className="border-b border-gray-400">
@@ -24,7 +26,7 @@ async function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          {isLoggedIn ? (
+          {user ? (
             <div className="flex gap-4 ">
               <AddBookButton />
               <Logout />
