@@ -9,7 +9,9 @@ async function BookList() {
   let books: Book[] = [];
 
   try {
-    const response = await fetch(`${BASE_URL}/api/books/list-books`);
+    const response = await fetch(`${BASE_URL}/api/books/list-books`, {
+      cache: "no-cache",
+    });
 
     if (!response.ok) {
       throw new Error("An error occured while fetching the data.");
