@@ -1,19 +1,13 @@
 import connectDB from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { verifyToken } from "@/lib/auth/verifyToken";
-import { cookies } from "next/headers";
 import { User } from "@/models/user.models";
 
 connectDB();
 
-export async function GET() {
-  console.log("GET /api/users/me handler triggered");
-
+export async function GET(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value || "";
-
-    console.log("me token: ", token);
+    const token = request.cookies.get("token")?.value || "";
 
     if (!token) {
       return NextResponse.json(
@@ -23,8 +17,6 @@ export async function GET() {
     }
 
     const { id } = verifyToken(token);
-
-    console.log("User ID from token:", id);
 
     const user = await User.findById(id).select("-password");
 
