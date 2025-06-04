@@ -32,7 +32,7 @@ function LoginForm() {
         const meResponse = await axios.get("api/users/me");
         setUser(meResponse?.data?.data); // this sets the user right after login
         toast.success(response.data.message || "Login successful!");
-        router.push("/");
+        router.push("/profile");
         router.refresh();
       } else {
         toast.error(response.data.message || "Login failed");
