@@ -4,11 +4,7 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Allow access to public API
-  const publicApiPaths = [
-    "/api/books/list-books",
-    "/api/users/login",
-    "/api/users/signup",
-  ];
+  const publicApiPaths = ["/api/users/login", "/api/users/signup"];
   if (publicApiPaths.includes(path)) {
     return NextResponse.next();
   }
@@ -33,5 +29,5 @@ export async function middleware(request: NextRequest) {
 
 // Apply middleware to these paths
 export const config = {
-  matcher: ["/login", "/signup", "/add-book", "/api/:path*"],
+  matcher: ["/login", "/signup", "/add-book", "/api/users/:path*"],
 };
