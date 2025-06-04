@@ -66,6 +66,17 @@ function Navbar() {
                 <button
                   className="w-full text-left px-4 py-2 cursor-pointer"
                   onClick={() => {
+                    router.push("/profile");
+                    setIsDropdownOpen(false);
+                  }}
+                >
+                  <div className="h-10 w-full text-center rounded-md border border-blue-500 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-400 hover:text-white transition">
+                    Profile
+                  </div>
+                </button>
+                <button
+                  className="w-full text-left px-4 py-2 cursor-pointer"
+                  onClick={() => {
                     router.push("/add-book");
                     setIsDropdownOpen(false);
                   }}
